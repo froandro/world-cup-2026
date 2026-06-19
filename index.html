@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="sport-green">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup 2026 — Плакат</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+html{overflow-x:clip}
+body{overflow-x:clip}
+
+:root{
+  /* ── Green OKLCH palette (anchor hue 140°) ── */
+  --color-paper:    oklch(98% 0.006 140);
+  --color-paper-2:  oklch(96% 0.008 140);
+  --color-paper-3:  oklch(92% 0.012 140);
+  --color-rule:     oklch(82% 0.016 140);
+  --color-rule-2:   oklch(68% 0.022 140);
+  --color-muted:    oklch(52% 0.030 140);
+  --color-neutral:  oklch(36% 0.040 140);
+  --color-ink-2:    oklch(26% 0.050 140);
+  --color-ink:      oklch(16% 0.060 140);
+
+  /* Sport accent: burnt orange — complement to green */
+  --color-accent:      oklch(60% 0.180 35);
+  --color-accent-ink:  oklch(48% 0.160 35);
+
+  /* Theme accent: green itself */
+  --color-green:       oklch(52% 0.130 140);
+  --color-green-light: oklch(62% 0.140 140);
+  --color-green-bright:oklch(70% 0.150 140);
+
+  /* Country accents */
+  --color-usa:  oklch(55% 0.120 250);
+  --color-mex:  oklch(55% 0.130 150);
+  --color-can:  oklch(55% 0.130 15);
+
+  /* Type */
+  --font-display: "Oswald", ui-sans-serif, sans-serif;
+  --font-body:    "DM Sans", ui-sans-serif, sans-serif;
+  --font-label:   "JetBrains Mono", ui-monospace, monospace;
+
+  --display-weight: 700;
+  --display-style: italic;
+  --lh-tight: 1.02;
+  --lh-snug:  1.12;
+  --lh-body:  1.5;
+
+  --tracking-display: -0.03em;
+  --tracking-label:   0.10em;
+
+  --text-xs:  0.7rem;
+  --text-sm:  0.8rem;
+  --text-md:  0.95rem;
+  --text-lg:  1.2rem;
+  --text-xl:  1.6rem;
+  --text-2xl: 2.2rem;
+  --text-3xl: 3.2rem;
+  --text-hero: clamp(3.5rem, 7vw + 1rem, 7rem);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--font-body);
+  background:var(--color-paper);
+  color:var(--color-ink);
+  line-height:var(--lh-body);
+  -webkit-font-smoothing:antialiased;
+}
+
+.poster{
+  max-width:1280px;
+  width:100%;
+  margin:0 auto;
+  background:var(--color-paper);
+  overflow:hidden;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HEADER — Manifesto tilt · Oswald italic · assertion energy
+   ══════════════════════════════════════════════════════════════ */
+.header{
+  position:relative;
+  padding:52px 56px 44px;
+  background:linear-gradient(170deg, var(--color-paper) 0%, var(--color-paper-2) 100%);
+  border-bottom:3px solid var(--color-green);
+  overflow:hidden;
+}
+.header::before{
+  content:'WC26';
+  position:absolute;
+  top:-18px;right:-12px;
+  font:italic 700 11rem/1 var(--font-display);
+  color:var(--color-paper-3);
+  letter-spacing:-0.04em;
+  pointer-events:none;
+  z-index:0;
+}
+.header-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start}
+
+.tag{
+  display:inline-block;
+  font:700 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:var(--tracking-label);
+  color:var(--color-green);
+  border:1.5px solid var(--color-green);
+  padding:5px 14px;
+  margin-bottom:14px;
+  transform:rotate(-1.5deg);
+}
+
+h1{
+  font:italic var(--display-weight) var(--text-hero)/var(--lh-tight) var(--font-display);
+  letter-spacing:var(--tracking-display);
+  text-transform:uppercase;
+  color:var(--color-ink);
+  transform:rotate(-1.5deg);
+  transform-origin:left center;
+}
+h1 span{
+  display:block;
+  font:700 0.28em/1 var(--font-label);
+  letter-spacing:0.22em;
+  color:var(--color-muted);
+  margin-bottom:6px;
+  transform:none;
+}
+
+.header-stats{
+  display:flex;
+  gap:28px;
+  margin-top:12px;
+  transform:rotate(-1.5deg);
+}
+.stat{text-align:center}
+.stat-n{
+  font:700 2.6rem/1 var(--font-display);
+  color:var(--color-green);
+  letter-spacing:-0.02em;
+}
+.stat-l{
+  font:700 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:var(--tracking-label);
+  color:var(--color-muted);
+  margin-top:3px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BLEED DIVIDER — Manifesto signature: solid color band
+   ══════════════════════════════════════════════════════════════ */
+.divider{
+  background:var(--color-green);
+  color:var(--color-paper);
+  font:700 var(--text-sm)/1.6 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+  padding:10px 56px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.divider--accent{
+  background:var(--color-accent);
+  color:var(--color-paper);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTIONS
+   ══════════════════════════════════════════════════════════════ */
+.section{padding:32px 56px}
+.section--tight{padding:24px 56px}
+
+.section-head{
+  font:italic 700 var(--text-xl)/var(--lh-tight) var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:var(--tracking-display);
+  color:var(--color-ink);
+  transform:rotate(-1.5deg);
+  transform-origin:left center;
+  margin-bottom:16px;
+  padding-left:4px;
+}
+.section-head::after{
+  content:'';
+  display:block;
+  width:48px;height:3px;
+  background:var(--color-accent);
+  margin-top:6px;
+  transform:rotate(1.5deg);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GROUPS — 4-col grid · compact rows
+   ══════════════════════════════════════════════════════════════ */
+.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+
+.group{
+  background:var(--color-paper);
+  border:1px solid var(--color-rule);
+  border-radius:0;
+  overflow:hidden;
+}
+.group-hd{
+  padding:5px 12px;
+  font:italic 700 var(--text-md)/1.3 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-paper);
+  background:var(--color-ink);
+  display:grid;
+  grid-template-columns:1fr 28px 28px 28px;
+  align-items:center;
+}
+.group-hd em{
+  font-style:italic;
+  font-size:0.7em;
+  opacity:0.6;
+}
+.group-hd .group-col-hd{
+  display:contents;
+}
+.group-hd .group-col-hd span{
+  text-align:center;
+  color:var(--color-paper);
+}
+.group-team{
+  padding:4px 10px;
+  font:500 var(--text-sm)/1.5 var(--font-body);
+  border-bottom:1px solid var(--color-paper-3);
+  display:grid;
+  grid-template-columns:1fr 28px 28px 28px;
+  align-items:center;
+  gap:0;
+  color:var(--color-ink-2);
+}
+.group-team:last-child{border-bottom:none}
+.group-team .team-name{
+  display:flex;align-items:center;gap:5px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.group-team .pos{
+  width:16px;height:16px;min-width:16px;
+  background:var(--color-paper-2);
+  display:flex;align-items:center;justify-content:center;
+  font:700 0.6rem/1 var(--font-label);
+  color:var(--color-muted);
+}
+.group-team:first-of-type .pos{background:var(--color-green);color:var(--color-paper)}
+.group-team .team-pos,
+.group-team .team-gp,
+.group-team .team-pts{
+  text-align:center;
+  font:700 0.7rem/1 var(--font-label);
+  color:var(--color-muted);
+}
+.group-team .team-pos{
+  font:700 0.65rem/1 var(--font-label);
+}
+.group-team .team-pts{color:var(--color-green)}
+
+/* ══════════════════════════════════════════════════════════════
+   CALENDAR TIMELINE — horizontal day blocks
+   ══════════════════════════════════════════════════════════════ */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(52px,1fr));
+  gap:3px;
+}
+.tl-day{
+  background:var(--color-paper-2);
+  border:1px solid var(--color-paper-3);
+  padding:5px 4px;
+  text-align:center;
+  position:relative;
+}
+.tl-day::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:var(--color-rule);
+}
+.tl-day--match::before{background:var(--color-green)}
+.tl-day--ko::before{background:var(--color-accent)}
+.tl-day--final::before{background:var(--color-accent);height:3px}
+
+.tl-date{
+  font:700 0.55rem/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--color-muted);
+  margin-bottom:3px;
+}
+.tl-count{
+  font:700 1.1rem/1 var(--font-display);
+  color:var(--color-ink);
+}
+.tl-day--ko .tl-count{color:var(--color-accent)}
+.tl-day--final .tl-count{color:var(--color-accent)}
+.tl-note{
+  font:500 0.48rem/1.2 var(--font-body);
+  color:var(--color-muted);
+  margin-top:2px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   KNOCKOUT BRACKET — vertical flow
+   ══════════════════════════════════════════════════════════════ */
+.bracket{
+  display:grid;
+  grid-template-columns:1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1.2fr;
+  gap:0;
+  align-items:start;
+}
+.b-round{display:flex;flex-direction:column;gap:6px}
+.b-round-title{
+  font:700 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:var(--tracking-label);
+  color:var(--color-muted);
+  padding-bottom:6px;
+  border-bottom:2px solid var(--color-rule);
+  margin-bottom:4px;
+}
+.b-match{
+  background:var(--color-paper-2);
+  border:1px solid var(--color-rule);
+  padding:6px 10px;
+  font:500 var(--text-sm)/1.4 var(--font-body);
+  color:var(--color-ink-2);
+}
+.b-match-num{
+  font:700 0.55rem/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-muted);
+  margin-bottom:2px;
+}
+.b-match-teams{font-weight:700;color:var(--color-ink)}
+.b-match-meta{font-size:0.65rem;color:var(--color-muted);margin-top:1px}
+
+.b-arrow{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--color-rule-2);
+  font-size:1.2rem;
+  padding-top:20px;
+}
+
+.b-round--final .b-match{
+  background:var(--color-ink);
+  color:var(--color-paper);
+  border-color:var(--color-ink);
+}
+.b-round--final .b-match .b-match-num{color:var(--color-green-light)}
+.b-round--final .b-match .b-match-teams{color:var(--color-paper)}
+.b-round--final .b-match .b-match-meta{color:var(--color-muted)}
+
+/* ══════════════════════════════════════════════════════════════
+   HIGHLIGHTS — pull-quote style cards
+   ══════════════════════════════════════════════════════════════ */
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hl{
+  background:var(--color-paper-2);
+  border-left:4px solid var(--color-green);
+  padding:14px 16px;
+}
+.hl-date{
+  font:700 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:var(--tracking-label);
+  color:var(--color-green);
+}
+.hl-title{
+  font:italic 700 var(--text-lg)/var(--lh-snug) var(--font-display);
+  text-transform:uppercase;
+  color:var(--color-ink);
+  margin:6px 0 4px;
+}
+.hl-body{
+  font:400 var(--text-sm)/var(--lh-body) var(--font-body);
+  color:var(--color-muted);
+}
+.hl--accent{border-left-color:var(--color-accent)}
+.hl--accent .hl-date{color:var(--color-accent)}
+
+/* ══════════════════════════════════════════════════════════════
+   STADIUMS — 4-col compact cards
+   ══════════════════════════════════════════════════════════════ */
+.stadiums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.st{
+  background:var(--color-paper-2);
+  border:1px solid var(--color-paper-3);
+  padding:8px 10px;
+  position:relative;
+}
+.st::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;bottom:0;
+  width:3px;
+}
+.st--us::before{background:var(--color-usa)}
+.st--mx::before{background:var(--color-mex)}
+.st--ca::before{background:var(--color-can)}
+
+.st-country{
+  font:700 0.6rem/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin-bottom:3px;
+}
+.st--us .st-country{color:var(--color-usa)}
+.st--mx .st-country{color:var(--color-mex)}
+.st--ca .st-country{color:var(--color-can)}
+
+.st-name{
+  font:700 var(--text-sm)/1.3 var(--font-body);
+  color:var(--color-ink);
+}
+.st-city{
+  font:400 0.65rem/1.3 var(--font-body);
+  color:var(--color-muted);
+  margin-bottom:4px;
+}
+.st-cap{
+  font:700 0.6rem/1 var(--font-label);
+  color:var(--color-green);
+  background:oklch(96% 0.020 140);
+  padding:2px 6px;
+  display:inline-block;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════ */
+.footer{
+  padding:16px 56px;
+  border-top:2px solid var(--color-rule);
+  display:flex;
+  justify-content:space-between;
+  font:500 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-muted);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRINT
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   SCHEDULE — full match list
+   ══════════════════════════════════════════════════════════════ */
+.schedule-note{
+  font:500 var(--text-xs)/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-muted);
+  margin-bottom:14px;
+}
+.schedule{column-count:3;column-gap:16px}
+.sch-day{break-inside:avoid;margin-bottom:8px;border-bottom:1px solid var(--color-paper-3)}
+.sch-day-hd{
+  font:700 var(--text-sm)/1 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--color-ink);
+  padding:8px 0 4px;
+  background:var(--color-paper-2);
+  padding-left:8px;
+  margin:0 -8px;
+  position:sticky;top:0;z-index:2;
+}
+.sch-day-hd em{font-style:italic;color:var(--color-green)}
+.sch-matches{display:flex;flex-direction:column;gap:0}
+.sch-row{
+  display:grid;
+  grid-template-columns:52px 1fr 60px;
+  gap:6px;
+  padding:3px 0;
+  border-bottom:1px solid var(--color-paper-3);
+  font:500 var(--text-sm)/1.3 var(--font-body);
+  align-items:center;
+}
+.sch-row:last-child{border-bottom:none}
+.sch-time{
+  font:700 var(--text-sm)/1 var(--font-label);
+  color:var(--color-green);
+  white-space:nowrap;
+}
+.sch-match{color:var(--color-ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sch-match b{color:var(--color-ink);font-weight:700}
+.sch-group{
+  font:700 0.6rem/1 var(--font-label);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-muted);
+  text-align:right;
+}
+.sch-ko .sch-time{color:var(--color-accent)}
+.sch-final .sch-time{color:var(--color-accent);font-size:0.9rem}
+.sch-final .sch-match b{color:var(--color-accent)}
+.sch-final{background:oklch(97% 0.015 35)}
+.sch-score{
+  font:italic 700 var(--text-md)/1 var(--font-display);
+  color:var(--color-green);
+  margin-left:6px;
+  letter-spacing:-0.02em;
+}
+
+@media print{
+  .poster{width:100%}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .groups{grid-template-columns:repeat(3,1fr)}
+  .bracket{grid-template-columns:1fr;gap:8px}
+  .b-arrow{display:none}
+  .b-round{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .b-round-title{width:100%}
+  .b-match{flex:1;min-width:140px}
+}
+@media(max-width:900px){
+  .groups{grid-template-columns:repeat(2,1fr)}
+  .schedule{column-count:2}
+  .header-stats{flex-wrap:wrap;gap:16px}
+  .header{padding:36px 24px 28px}
+  .section{padding:24px 24px}
+  .section--tight{padding:16px 24px}
+  .divider{padding:8px 24px}
+  .footer{padding:12px 24px}
+  h1{font-size:clamp(2.5rem,6vw,4.5rem)}
+}
+@media(max-width:600px){
+  .groups{grid-template-columns:1fr}
+  .schedule{column-count:1}
+  .header-inner{flex-direction:column;gap:16px}
+  .header-stats{gap:12px}
+  .stat-n{font-size:2rem}
+  .tag{font-size:0.6rem;padding:4px 10px}
+  h1{font-size:clamp(2rem,8vw,3.5rem);transform:none}
+  .section-head{font-size:1.3rem;transform:none}
+  .sch-row{grid-template-columns:44px 1fr;font-size:0.8rem}
+  .sch-group{display:none}
+  .footer{flex-direction:column;gap:6px;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="poster">
+
+<!-- ════════ HEADER ════════ -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="tag">11 июня — 19 июля 2026</div>
+      <h1><span>FIFA World Cup</span>2026</h1>
+      <div class="header-stats">
+        <div class="stat"><div class="stat-n">48</div><div class="stat-l">Команд</div></div>
+        <div class="stat"><div class="stat-n">104</div><div class="stat-l">Матча</div></div>
+        <div class="stat"><div class="stat-n">16</div><div class="stat-l">Стадионов</div></div>
+        <div class="stat"><div class="stat-n">39</div><div class="stat-l">Дней</div></div>
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">Страны</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════ BLEED DIVIDER ════════ -->
+<div class="divider">
+  <span>США · Мексика · Канада</span>
+  <span>48 Команд · 12 Групп</span>
+  <span>Первый Расширенный ЧМ</span>
+</div>
+
+<!-- ════════ GROUPS ════════ -->
+<section class="section">
+  <h2 class="section-head">Группы</h2>
+  <div class="groups" id="groups-root"></div>
+</section>
+
+<!-- ════════ CALENDAR ════════ -->
+<section class="section section--tight">
+  <h2 class="section-head">Календарь</h2>
+  <div class="timeline" id="timeline-root"></div>
+</section>
+
+<!-- ════════ SCHEDULE ════════ -->
+<section class="section section--tight">
+  <h2 class="section-head">Расписание матчей · МСК</h2>
+  <div class="schedule-note">Время указано по Москве (UTC+3). Оригинальное время — восточное (ET, UTC−4).</div>
+  <div id="schedule-root" class="schedule"></div>
+</section>
+
+<!-- ════════ KNOCKOUT BRACKET ════════ -->
+<section class="section">
+  <h2 class="section-head">Плей-офф</h2>
+  <div class="bracket">
+    <!-- 1/32 -->
+    <div class="b-round">
+      <div class="b-round-title">1/32 финала</div>
+      <div class="b-match"><div class="b-match-num">Матч 65</div><div class="b-match-teams">2A — 2B</div><div class="b-match-meta">28 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 66</div><div class="b-match-teams">Поб.C — 2F</div><div class="b-match-meta">29 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 67</div><div class="b-match-teams">Поб.E — 3-е(A/B/C/D/F)</div><div class="b-match-meta">29 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 68</div><div class="b-match-teams">Поб.F — 2C</div><div class="b-match-meta">29 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 69</div><div class="b-match-teams">2E — 2I</div><div class="b-match-meta">30 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 70</div><div class="b-match-teams">Поб.I — 3-е(C/D/F/G/H)</div><div class="b-match-meta">30 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 71</div><div class="b-match-teams">Поб.A — 3-е(C/E/F/H/I)</div><div class="b-match-meta">30 июня</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 72</div><div class="b-match-teams">Поб.L — 3-е(E/H/I/J/K)</div><div class="b-match-meta">1 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 73</div><div class="b-match-teams">Поб.G — 3-е(A/E/H/I/J)</div><div class="b-match-meta">1 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 74</div><div class="b-match-teams">Поб.D — 3-е(B/E/F/I/J)</div><div class="b-match-meta">1 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 75</div><div class="b-match-teams">Поб.H — 2J</div><div class="b-match-meta">2 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 76</div><div class="b-match-teams">2K — 2L</div><div class="b-match-meta">2 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 77</div><div class="b-match-teams">Поб.B — 3-е(E/F/G/I/J)</div><div class="b-match-meta">2 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 78</div><div class="b-match-teams">2D — 2G</div><div class="b-match-meta">3 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 79</div><div class="b-match-teams">Поб.J — 2H</div><div class="b-match-meta">4 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 80</div><div class="b-match-teams">Поб.K — 3-е(D/E/I/J/L)</div><div class="b-match-meta">4 июля</div></div>
+    </div>
+    <div class="b-arrow">→</div>
+    <!-- 1/8 -->
+    <div class="b-round">
+      <div class="b-round-title">1/8 финала</div>
+      <div class="b-match"><div class="b-match-num">Матч 81</div><div class="b-match-teams">Поб.73 — Поб.75</div><div class="b-match-meta">4 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 82</div><div class="b-match-teams">Поб.74 — Поб.77</div><div class="b-match-meta">4 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 83</div><div class="b-match-teams">Поб.76 — Поб.78</div><div class="b-match-meta">5 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 84</div><div class="b-match-teams">Поб.79 — Поб.80</div><div class="b-match-meta">5 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 85</div><div class="b-match-teams">Поб.83 — Поб.84</div><div class="b-match-meta">6 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 86</div><div class="b-match-teams">Поб.81 — Поб.82</div><div class="b-match-meta">6 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 87</div><div class="b-match-teams">Поб.86 — Поб.88</div><div class="b-match-meta">7 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 88</div><div class="b-match-teams">Поб.85 — Поб.87</div><div class="b-match-meta">7 июля</div></div>
+    </div>
+    <div class="b-arrow">→</div>
+    <!-- 1/4 -->
+    <div class="b-round">
+      <div class="b-round-title">1/4 финала</div>
+      <div class="b-match"><div class="b-match-num">Матч 89</div><div class="b-match-teams">Поб.81 — Поб.82</div><div class="b-match-meta">9 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 90</div><div class="b-match-teams">Поб.85 — Поб.86</div><div class="b-match-meta">10 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 91</div><div class="b-match-teams">Поб.83 — Поб.84</div><div class="b-match-meta">11 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 92</div><div class="b-match-teams">Поб.87 — Поб.88</div><div class="b-match-meta">11 июля</div></div>
+    </div>
+    <div class="b-arrow">→</div>
+    <!-- 1/2 -->
+    <div class="b-round">
+      <div class="b-round-title">Полуфиналы</div>
+      <div class="b-match"><div class="b-match-num">Матч 93</div><div class="b-match-teams">Поб.89 — Поб.90</div><div class="b-match-meta">14 июля</div></div>
+      <div class="b-match"><div class="b-match-num">Матч 94</div><div class="b-match-teams">Поб.91 — Поб.92</div><div class="b-match-meta">15 июля</div></div>
+    </div>
+    <div class="b-arrow">→</div>
+    <!-- FINAL -->
+    <div class="b-round b-round--final">
+      <div class="b-round-title" style="border-bottom-color:var(--color-accent);color:var(--color-accent)">Финал</div>
+      <div class="b-match">
+        <div class="b-match-num">Матч 96 · Финал</div>
+        <div class="b-match-teams" style="font-size:1rem">🏆 Чемпион мира 2026</div>
+        <div class="b-match-meta">19 июля · MetLife Stadium · Нью-Йорк</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="footer">
+  <span>FIFA World Cup 2026™ · Расписание по данным FIFA · Время: московское (МСК)</span>
+  <span>11.06 — 19.07.2026 · 48 команд · 104 матча · 3 страны</span>
+</footer>
+
+</div>
+
+<script>
+// ── GROUPS DATA ──
+const groups = [
+  {id:'A',teams:['Мексика','ЮАР','Южная Корея','Чехия']},
+  {id:'B',teams:['Канада','Босния и Герцеговина','Катар','Швейцария']},
+  {id:'C',teams:['Бразилия','Марокко','Гаити','Шотландия']},
+  {id:'D',teams:['США','Парагвай','Австралия','Турция']},
+  {id:'E',teams:['Германия','Кюрасао','Кот-д\'Ивуар','Эквадор']},
+  {id:'F',teams:['Нидерланды','Япония','Швеция','Тунис']},
+  {id:'G',teams:['Бельгия','Египет','Иран','Новая Зеландия']},
+  {id:'H',teams:['Испания','Кабо-Верде','Саудовская Аравия','Уругвай']},
+  {id:'I',teams:['Франция','Сенегал','Ирак','Норвегия']},
+  {id:'J',teams:['Аргентина','Алжир','Австрия','Иордания']},
+  {id:'K',teams:['Португалия','ДР Конго','Узбекистан','Колумбия']},
+  {id:'L',teams:['Англия','Хорватия','Гана','Панама']}
+];
+
+const groupsEl = document.getElementById('groups-root');
+groups.forEach(g => {
+  const rows = g.teams.map((t,i) => {
+    return `<div class="group-team" data-group="${g.id}"><span class="team-name"><span class="pos">${i+1}</span> ${t}</span><span class="team-gp" data-team="${t}"></span><span class="team-pts" data-team="${t}"></span><span class="team-pos" data-team="${t}"></span></div>`;
+  }).join('');
+  groupsEl.innerHTML += `<div class="group"><div class="group-hd"><span>Группа ${g.id}</span><span class="group-col-hd"><span>И</span><span>О</span><span>М</span></span></div>${rows}</div>`;
+});
+
+// ── CALENDAR DATA ──
+const days = [
+  {d:'Чт',n:11,m:['МЕК–ЮАР'],cls:'match'},
+  {d:'Пт',n:12,m:['КАН–БИГ','США–ПАР'],cls:'match'},
+  {d:'Сб',n:13,m:['КАТ–ШВЕ','БРА–МАР','ГАИ–ШОТ'],cls:'match'},
+  {d:'Вс',n:14,m:['АВС–ТУР','ГЕР–КЮР','НИД–ЯПО','КОТ–ЭКВ','ШВЕ–ТУН'],cls:'match'},
+  {d:'Пн',n:15,m:['ИСП–КАБ','БЕЛ–ЕГИ','САУ–УРУ','ИРА–НОЗ'],cls:'match'},
+  {d:'Вт',n:16,m:['ФРА–СЕН','ИРА–НОР','АРГ–АЛЖ'],cls:'match'},
+  {d:'Ср',n:17,m:['АВС–ИОР','ПОР–ДРК','АНГ–ХОР','ГАН–ПАН','УЗБ–КОЛ'],cls:'match'},
+  {d:'Чт',n:18,m:['ЧЕХ–ЮАР','ШВЕ–БИГ','КАН–КАТ','МЕК–ЮКОР'],cls:'match'},
+  {d:'Пт',n:19,m:['США–АВС','ШОТ–МАР','БРА–ГАИ','ТУР–ПАР'],cls:'match'},
+  {d:'Сб',n:20,m:['НИД–ШВЕ','ГЕР–КОТ','ЭКВ–КЮР'],cls:'match'},
+  {d:'Вс',n:21,m:['ТУН–ЯПО','ИСП–САУ','БЕЛ–ИРА','УРУ–КАВ','НОЗ–ЕГИ'],cls:'match'},
+  {d:'Пн',n:22,m:['АРГ–АВС','ФРА–ИРА','НОР–СЕН','ИОР–АЛЖ'],cls:'match'},
+  {d:'Вт',n:23,m:['ПОР–УЗБ','АНГ–ГАН','ПАН–ХОР','КОЛ–ДРК'],cls:'match'},
+  {d:'Ср',n:24,m:['ШВЕ–КАН','БИГ–КАТ','ШОТ–БРА','МАР–ГАИ','ЧЕХ–МЕК','ЮАР–ЮКОР'],cls:'match'},
+  {d:'Чт',n:25,m:['КЮР–КОТ','ЭКВ–ГЕР','ЯПО–ШВЕ','ТУН–НИД','ТУР–США','ПАР–АВС'],cls:'match'},
+  {d:'Пт',n:26,m:['НОР–ФРА','СЕН–ИРА','КАВ–САУ','УРУ–ИСП','ЕГИ–ИРА','НОЗ–БЕЛ'],cls:'match'},
+  {d:'Сб',n:27,m:['ПАН–АНГ','ХОР–ГАН','КОЛ–ПОР','ДРК–УЗБ','АЛЖ–АВС','ИОР–АРГ'],cls:'match'},
+  {d:'Вс',n:28,m:['1/32'],cls:'ko'},
+  {d:'Пн',n:29,m:['1/32'],cls:'ko'},
+  {d:'Вт',n:30,m:['1/32'],cls:'ko'},
+  {d:'Ср',n:1,m:['1/32'],cls:'ko',month:'Июль'},
+  {d:'Чт',n:2,m:['1/32'],cls:'ko'},
+  {d:'Пт',n:3,m:['1/32'],cls:'ko'},
+  {d:'Сб',n:4,m:['1/8'],cls:'ko'},
+  {d:'Вс',n:5,m:['1/8'],cls:'ko'},
+  {d:'Пн',n:6,m:['1/8'],cls:'ko'},
+  {d:'Вт',n:7,m:['1/8'],cls:'ko'},
+  {d:'Ср',n:8,m:[],cls:''},
+  {d:'Чт',n:9,m:['1/4'],cls:'ko'},
+  {d:'Пт',n:10,m:['1/4'],cls:'ko'},
+  {d:'Сб',n:11,m:['1/4'],cls:'ko'},
+  {d:'Вс',n:12,m:[],cls:''},
+  {d:'Пн',n:13,m:[],cls:''},
+  {d:'Вт',n:14,m:['1/2'],cls:'ko'},
+  {d:'Ср',n:15,m:['1/2'],cls:'ko'},
+  {d:'Чт',n:16,m:[],cls:''},
+  {d:'Пт',n:17,m:[],cls:''},
+  {d:'Сб',n:18,m:['3-е место'],cls:'ko'},
+  {d:'Вс',n:19,m:['ФИНАЛ'],cls:'final'},
+];
+
+const tlEl = document.getElementById('timeline-root');
+days.forEach(day => {
+  const cls = day.cls === 'final' ? 'tl-day tl-day--final' : day.cls === 'ko' ? 'tl-day tl-day--ko' : day.cls === 'match' ? 'tl-day tl-day--match' : 'tl-day';
+  const note = day.m.length > 0 ? day.m.join(', ') : '';
+  tlEl.innerHTML += `<div class="${cls}"><div class="tl-date">${day.d} ${day.n}</div><div class="tl-count">${day.m.length || '—'}</div>${note ? `<div class="tl-note">${note}</div>` : ''}</div>`;
+});
+
+// ── FULL SCHEDULE (ET times) ──
+const matches = [
+  // June 11
+  {d:'2026-06-11',g:'A',t:'Мексика — ЮАР',et:'15:00'},
+  {d:'2026-06-11',g:'A',t:'Южная Корея — Чехия',et:'22:00'},
+  // June 12
+  {d:'2026-06-12',g:'B',t:'Канада — Босния и Герцеговина',et:'15:00'},
+  {d:'2026-06-12',g:'D',t:'США — Парагвай',et:'21:00'},
+  // June 13
+  {d:'2026-06-13',g:'B',t:'Катар — Швейцария',et:'15:00'},
+  {d:'2026-06-13',g:'C',t:'Бразилия — Марокко',et:'18:00'},
+  {d:'2026-06-13',g:'C',t:'Гаити — Шотландия',et:'21:00'},
+  // June 14
+  {d:'2026-06-14',g:'D',t:'Австралия — Турция',et:'00:00'},
+  {d:'2026-06-14',g:'E',t:'Германия — Кюрасао',et:'13:00'},
+  {d:'2026-06-14',g:'F',t:'Нидерланды — Япония',et:'16:00'},
+  {d:'2026-06-14',g:'E',t:'Кот-д\'Ивуар — Эквадор',et:'19:00'},
+  {d:'2026-06-14',g:'F',t:'Швеция — Тунис',et:'22:00'},
+  // June 15
+  {d:'2026-06-15',g:'H',t:'Испания — Кабо-Верде',et:'12:00'},
+  {d:'2026-06-15',g:'G',t:'Бельгия — Египет',et:'15:00'},
+  {d:'2026-06-15',g:'H',t:'Саудовская Аравия — Уругвай',et:'18:00'},
+  {d:'2026-06-15',g:'G',t:'Иран — Новая Зеландия',et:'21:00'},
+  // June 16
+  {d:'2026-06-16',g:'I',t:'Франция — Сенегал',et:'15:00'},
+  {d:'2026-06-16',g:'I',t:'Ирак — Норвегия',et:'18:00'},
+  {d:'2026-06-16',g:'J',t:'Аргентина — Алжир',et:'21:00'},
+  // June 17
+  {d:'2026-06-17',g:'J',t:'Австрия — Иордания',et:'00:00'},
+  {d:'2026-06-17',g:'K',t:'Португалия — ДР Конго',et:'13:00'},
+  {d:'2026-06-17',g:'L',t:'Англия — Хорватия',et:'16:00'},
+  {d:'2026-06-17',g:'L',t:'Гана — Панама',et:'19:00'},
+  {d:'2026-06-17',g:'K',t:'Узбекистан — Колумбия',et:'22:00'},
+  // June 18
+  {d:'2026-06-18',g:'A',t:'Чехия — ЮАР',et:'12:00'},
+  {d:'2026-06-18',g:'B',t:'Швейцария — Босния и Герцеговина',et:'15:00'},
+  {d:'2026-06-18',g:'B',t:'Канада — Катар',et:'18:00'},
+  {d:'2026-06-18',g:'A',t:'Мексика — Южная Корея',et:'21:00'},
+  // June 19
+  {d:'2026-06-19',g:'D',t:'США — Австралия',et:'15:00'},
+  {d:'2026-06-19',g:'C',t:'Шотландия — Марокко',et:'18:00'},
+  {d:'2026-06-19',g:'C',t:'Бразилия — Гаити',et:'20:30'},
+  {d:'2026-06-19',g:'D',t:'Турция — Парагвай',et:'23:00'},
+  // June 20
+  {d:'2026-06-20',g:'F',t:'Нидерланды — Швеция',et:'13:00'},
+  {d:'2026-06-20',g:'E',t:'Германия — Кот-д\'Ивуар',et:'16:00'},
+  {d:'2026-06-20',g:'E',t:'Эквадор — Кюрасао',et:'20:00'},
+  // June 21
+  {d:'2026-06-21',g:'F',t:'Тунис — Япония',et:'00:00'},
+  {d:'2026-06-21',g:'H',t:'Испания — Саудовская Аравия',et:'12:00'},
+  {d:'2026-06-21',g:'G',t:'Бельгия — Иран',et:'15:00'},
+  {d:'2026-06-21',g:'H',t:'Уругвай — Кабо-Верде',et:'18:00'},
+  {d:'2026-06-21',g:'G',t:'Новая Зеландия — Египет',et:'21:00'},
+  // June 22
+  {d:'2026-06-22',g:'J',t:'Аргентина — Австрия',et:'13:00'},
+  {d:'2026-06-22',g:'I',t:'Франция — Ирак',et:'17:00'},
+  {d:'2026-06-22',g:'I',t:'Норвегия — Сенегал',et:'20:00'},
+  {d:'2026-06-22',g:'J',t:'Иордания — Алжир',et:'23:00'},
+  // June 23
+  {d:'2026-06-23',g:'K',t:'Португалия — Узбекистан',et:'13:00'},
+  {d:'2026-06-23',g:'L',t:'Англия — Гана',et:'16:00'},
+  {d:'2026-06-23',g:'L',t:'Панама — Хорватия',et:'19:00'},
+  {d:'2026-06-23',g:'K',t:'Колумбия — ДР Конго',et:'22:00'},
+  // June 24
+  {d:'2026-06-24',g:'B',t:'Швейцария — Канада',et:'15:00'},
+  {d:'2026-06-24',g:'B',t:'Босния и Герцеговина — Катар',et:'15:00'},
+  {d:'2026-06-24',g:'C',t:'Шотландия — Бразилия',et:'18:00'},
+  {d:'2026-06-24',g:'C',t:'Марокко — Гаити',et:'18:00'},
+  {d:'2026-06-24',g:'A',t:'Чехия — Мексика',et:'21:00'},
+  {d:'2026-06-24',g:'A',t:'ЮАР — Южная Корея',et:'21:00'},
+  // June 25
+  {d:'2026-06-25',g:'E',t:'Кюрасао — Кот-д\'Ивуар',et:'16:00'},
+  {d:'2026-06-25',g:'E',t:'Эквадор — Германия',et:'16:00'},
+  {d:'2026-06-25',g:'F',t:'Япония — Швеция',et:'19:00'},
+  {d:'2026-06-25',g:'F',t:'Тунис — Нидерланды',et:'19:00'},
+  {d:'2026-06-25',g:'D',t:'Турция — США',et:'22:00'},
+  {d:'2026-06-25',g:'D',t:'Парагвай — Австралия',et:'22:00'},
+  // June 26
+  {d:'2026-06-26',g:'I',t:'Норвегия — Франция',et:'15:00'},
+  {d:'2026-06-26',g:'I',t:'Сенегал — Ирак',et:'15:00'},
+  {d:'2026-06-26',g:'H',t:'Кабо-Верде — Саудовская Аравия',et:'20:00'},
+  {d:'2026-06-26',g:'H',t:'Уругвай — Испания',et:'20:00'},
+  {d:'2026-06-26',g:'G',t:'Египет — Иран',et:'23:00'},
+  {d:'2026-06-26',g:'G',t:'Новая Зеландия — Бельгия',et:'23:00'},
+  // June 27
+  {d:'2026-06-27',g:'L',t:'Панама — Англия',et:'17:00'},
+  {d:'2026-06-27',g:'L',t:'Хорватия — Гана',et:'17:00'},
+  {d:'2026-06-27',g:'K',t:'Колумбия — Португалия',et:'19:30'},
+  {d:'2026-06-27',g:'K',t:'ДР Конго — Узбекистан',et:'19:30'},
+  {d:'2026-06-27',g:'J',t:'Алжир — Австрия',et:'22:00'},
+  {d:'2026-06-27',g:'J',t:'Иордания — Аргентина',et:'22:00'},
+  // Round of 32
+  {d:'2026-06-28',ko:true,t:'1/32 · 2A — 2B',et:'15:00'},
+  {d:'2026-06-29',ko:true,t:'1/32 · Поб.C — 2F',et:'13:00'},
+  {d:'2026-06-29',ko:true,t:'1/32 · Поб.E — 3-е (A/B/C/D/F)',et:'16:30'},
+  {d:'2026-06-29',ko:true,t:'1/32 · Поб.F — 2C',et:'21:00'},
+  {d:'2026-06-30',ko:true,t:'1/32 · 2E — 2I',et:'13:00'},
+  {d:'2026-06-30',ko:true,t:'1/32 · Поб.I — 3-е (C/D/F/G/H)',et:'17:00'},
+  {d:'2026-06-30',ko:true,t:'1/32 · Поб.A — 3-е (C/E/F/H/I)',et:'21:00'},
+  {d:'2026-07-01',ko:true,t:'1/32 · Поб.L — 3-е (E/H/I/J/K)',et:'12:00'},
+  {d:'2026-07-01',ko:true,t:'1/32 · Поб.G — 3-е (A/E/H/I/J)',et:'16:00'},
+  {d:'2026-07-01',ko:true,t:'1/32 · Поб.D — 3-е (B/E/F/I/J)',et:'20:00'},
+  {d:'2026-07-02',ko:true,t:'1/32 · Поб.H — 2J',et:'15:00'},
+  {d:'2026-07-02',ko:true,t:'1/32 · 2K — 2L',et:'19:00'},
+  {d:'2026-07-02',ko:true,t:'1/32 · Поб.B — 3-е (E/F/G/I/J)',et:'23:00'},
+  {d:'2026-07-03',ko:true,t:'1/32 · 2D — 2G',et:'14:00'},
+  {d:'2026-07-03',ko:true,t:'1/32 · Поб.J — 2H',et:'18:00'},
+  {d:'2026-07-03',ko:true,t:'1/32 · Поб.K — 3-е (D/E/I/J/L)',et:'21:30'},
+  // Round of 16
+  {d:'2026-07-04',ko:true,t:'1/8 · Поб.73 — Поб.75',et:'13:00'},
+  {d:'2026-07-04',ko:true,t:'1/8 · Поб.74 — Поб.77',et:'17:00'},
+  {d:'2026-07-05',ko:true,t:'1/8 · Поб.76 — Поб.78',et:'16:00'},
+  {d:'2026-07-05',ko:true,t:'1/8 · Поб.79 — Поб.80',et:'20:00'},
+  {d:'2026-07-06',ko:true,t:'1/8 · Поб.83 — Поб.84',et:'15:00'},
+  {d:'2026-07-06',ko:true,t:'1/8 · Поб.81 — Поб.82',et:'20:00'},
+  {d:'2026-07-07',ko:true,t:'1/8 · Поб.86 — Поб.88',et:'12:00'},
+  {d:'2026-07-07',ko:true,t:'1/8 · Поб.85 — Поб.87',et:'16:00'},
+  // Quarter-finals
+  {d:'2026-07-09',ko:true,t:'1/4 · Поб.89 — Поб.90',et:'16:00'},
+  {d:'2026-07-10',ko:true,t:'1/4 · Поб.93 — Поб.94',et:'15:00'},
+  {d:'2026-07-11',ko:true,t:'1/4 · Поб.91 — Поб.92',et:'17:00'},
+  {d:'2026-07-11',ko:true,t:'1/4 · Поб.95 — Поб.96',et:'21:00'},
+  // Semi-finals
+  {d:'2026-07-14',ko:true,t:'1/2 · Поб.97 — Поб.98',et:'15:00'},
+  {d:'2026-07-15',ko:true,t:'1/2 · Поб.99 — Поб.100',et:'15:00'},
+  // Third-place & Final
+  {d:'2026-07-18',ko:true,t:'3-е место',et:'17:00'},
+  {d:'2026-07-19',final:true,t:'ФИНАЛ',et:'15:00'},
+];
+
+function etToMsk(etStr) {
+  const [h, m] = etStr.split(':').map(Number);
+  let mskH = (h + 7) % 24;
+  return `${String(mskH).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+
+function mskDate(etStr, dateStr) {
+  const [h] = etStr.split(':').map(Number);
+  const d = new Date(dateStr + 'T12:00:00Z');
+  if (h + 7 >= 24) d.setUTCDate(d.getUTCDate() + 1);
+  return d;
+}
+
+const ruMonths = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const ruDays = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+
+const schedEl = document.getElementById('schedule-root');
+let currentDay = '';
+
+matches.forEach(m => {
+  const msk = etToMsk(m.et);
+  const mskD = mskDate(m.et, m.d);
+  const dayLabel = `${ruDays[mskD.getUTCDay()]} ${mskD.getUTCDate()} ${ruMonths[mskD.getUTCMonth()]}`;
+
+  if (dayLabel !== currentDay) {
+    currentDay = dayLabel;
+    const isFinal = m.final;
+    const cls = isFinal ? 'sch-day-hd sch-final' : 'sch-day-hd';
+    schedEl.innerHTML += `<div class="sch-day"><div class="${cls}"><em>${dayLabel}</em></div><div class="sch-matches" id="sch-${dayLabel.replace(/\s/g,'-')}"></div></div>`;
+  }
+
+  const container = schedEl.querySelector(`#sch-${dayLabel.replace(/\s/g,'-')}`);
+  const rowCls = m.final ? 'sch-row sch-final' : m.ko ? 'sch-row sch-ko' : 'sch-row';
+  container.innerHTML += `<div class="${rowCls}" data-match="${m.t}"><span class="sch-time">${msk}</span><span class="sch-match"><b>${m.t}</b></span><span class="sch-group">${m.g || ''}</span></div>`;
+});
+
+// ── FETCH SCORES ──
+const teamMap = {
+  'Мексика':'Mexico','ЮАР':'South Africa','Южная Корея':'South Korea','Чехия':'Czech Republic',
+  'Канада':'Canada','Босния и Герцеговина':'Bosnia & Herzegovina','Катар':'Qatar','Швейцария':'Switzerland',
+  'Бразилия':'Brazil','Марокко':'Morocco','Гаити':'Haiti','Шотландия':'Scotland',
+  'США':'USA','Парагвай':'Paraguay','Австралия':'Australia','Турция':'Turkey',
+  'Германия':'Germany',  'Кюрасао':'Curacao','Нидерланды':'Netherlands','Япония':'Japan',
+  'Кот-д\'Ивуар':'Ivory Coast','Эквадор':'Ecuador','Швеция':'Sweden','Тунис':'Tunisia',
+  'Испания':'Spain','Кабо-Верде':'Cape Verde','Саудовская Аравия':'Saudi Arabia','Уругвай':'Uruguay',
+  'Бельгия':'Belgium','Египет':'Egypt','Иран':'Iran','Новая Зеландия':'New Zealand',
+  'Франция':'France','Сенегал':'Senegal','Ирак':'Iraq','Норвегия':'Norway',
+  'Аргентина':'Argentina','Алжир':'Algeria','Австрия':'Austria','Иордания':'Jordan',
+  'Португалия':'Portugal','ДР Конго':'D.R. Congo','Узбекистан':'Uzbekistan','Колумбия':'Colombia',
+  'Англия':'England','Хорватия':'Croatia','Гана':'Ghana','Панама':'Panama',
+};
+
+async function loadScores() {
+  try {
+    const resp = await fetch('/api/scores');
+    if (!resp.ok) return;
+    const data = await resp.json();
+
+    // Apply standings to groups
+    if (data.standings) {
+      const teamMapReverse = {};
+      for (const [ru, en] of Object.entries(teamMap)) {
+        teamMapReverse[en.toLowerCase()] = ru;
+      }
+
+      for (const [group, teams] of Object.entries(data.standings)) {
+        teams.forEach(s => {
+          const ruName = teamMapReverse[s.team.toLowerCase()];
+          if (!ruName) return;
+          const posEl = document.querySelector(`.team-pos[data-team="${ruName}"]`);
+          const gpEl = document.querySelector(`.team-gp[data-team="${ruName}"]`);
+          const ptsEl = document.querySelector(`.team-pts[data-team="${ruName}"]`);
+          if (posEl) posEl.textContent = s.pos;
+          if (gpEl) gpEl.textContent = s.gp;
+          if (ptsEl) ptsEl.textContent = s.pts;
+        });
+      }
+    }
+
+    if (!data.matches || !data.matches.length) return;
+
+    data.matches.forEach(api => {
+      if (api.status !== 'Finished' && api.status !== 'FT' && !api.homeScore) return;
+
+      const rows = schedEl.querySelectorAll('.sch-row');
+      rows.forEach(row => {
+        const text = row.getAttribute('data-match') || '';
+        const textLower = text.toLowerCase();
+
+        const apiHome = (api.home || '').toLowerCase();
+        const apiAway = (api.away || '').toLowerCase();
+
+        let matchFound = false;
+        for (const [ru, en] of Object.entries(teamMap)) {
+          if (en.toLowerCase() === apiHome && textLower.includes(ru.toLowerCase())) {
+            for (const [ru2, en2] of Object.entries(teamMap)) {
+              if (en2.toLowerCase() === apiAway && textLower.includes(ru2.toLowerCase()) && ru !== ru2) {
+                matchFound = true;
+                break;
+              }
+            }
+          }
+          if (matchFound) break;
+        }
+
+        if (matchFound) {
+          const scoreEl = row.querySelector('.sch-match');
+          if (scoreEl && !row.querySelector('.sch-score')) {
+            const score = document.createElement('span');
+            score.className = 'sch-score';
+            score.textContent = ` ${api.homeScore} : ${api.awayScore}`;
+            scoreEl.appendChild(score);
+          }
+        }
+      });
+    });
+  } catch (e) {
+    console.log('Score fetch skipped:', e.message);
+  }
+}
+loadScores();
+setInterval(loadScores, 5 * 60 * 1000);
+</script>
+</body>
+</html>
