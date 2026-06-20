@@ -954,6 +954,23 @@ async function loadScores() {
           if (ptsEl) ptsEl.textContent = s.pts;
         });
       }
+      // Sort rows by position
+      for (const [group, teams] of Object.entries(data.standings)) {
+        const groupEl = Array.from(document.querySelectorAll('.group')).find(el =>
+          el.querySelector('.group-hd span:first-child')?.textContent.includes(group)
+        );
+        if (!groupEl) continue;
+        const sorted = Array.from(groupEl.querySelectorAll('.group-team')).sort((a, b) => {
+          const aPos = parseInt(a.querySelector('.team-pos')?.textContent) || 99;
+          const bPos = parseInt(b.querySelector('.team-pos')?.textContent) || 99;
+          return aPos - bPos;
+        });
+        sorted.forEach((row, i) => {
+          const badge = row.querySelector('.pos');
+          if (badge) badge.textContent = i + 1;
+          groupEl.appendChild(row);
+        });
+      }
     }
 
     if (!data.matches || !data.matches.length) return;
