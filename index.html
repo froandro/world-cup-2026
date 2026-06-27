@@ -503,6 +503,10 @@ h1 span{
 .sch-final .sch-time{color:var(--color-accent);font-size:0.9rem}
 .sch-final .sch-match b{color:var(--color-accent)}
 .sch-final{background:oklch(97% 0.015 35)}
+.sch-row--highlight{background:var(--color-paper-3);outline:1px solid var(--color-rule-2)}
+.group-team.is-active{background:var(--color-paper-3);outline:1px solid var(--color-green-light)}
+@media(min-width:601px){.group-team{cursor:pointer}.group-team:not(.is-active):hover{background:var(--color-paper-3)}}
+
 .sch-score{
   font:italic 700 var(--text-md)/1 var(--font-display);
   color:var(--color-green);
@@ -1016,6 +1020,27 @@ async function loadScores() {
 }
 loadScores();
 setInterval(loadScores, 5 * 60 * 1000);
+
+// ponytail: desktop-only team match highlight
+if (window.matchMedia('(min-width: 601px)').matches) {
+  document.querySelector('.groups')?.addEventListener('click', e => {
+    const row = e.target.closest('.group-team');
+    if (!row) return;
+    const teamName = row.querySelector('.team-pos')?.dataset.team;
+    if (!teamName) return;
+
+    const wasActive = row.classList.contains('is-active');
+    document.querySelectorAll('.group-team.is-active, .sch-row--highlight')
+      .forEach(el => el.classList.remove('is-active', 'sch-row--highlight'));
+    if (wasActive) return;
+
+    row.classList.add('is-active');
+    document.querySelectorAll('.sch-row').forEach(r => {
+      if ((r.dataset.match || '').toLowerCase().includes(teamName.toLowerCase()))
+        r.classList.add('sch-row--highlight');
+    });
+  });
+}
 </script>
 </body>
 </html>
