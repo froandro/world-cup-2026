@@ -503,7 +503,7 @@ h1 span{
 .sch-final .sch-time{color:var(--color-accent);font-size:0.9rem}
 .sch-final .sch-match b{color:var(--color-accent)}
 .sch-final{background:oklch(97% 0.015 35)}
-.sch-row--highlight{background:var(--color-paper-3);outline:1px solid var(--color-rule-2)}
+.sch-row--highlight{background:var(--color-paper-3)}
 .group-team.is-active{background:var(--color-paper-3);outline:1px solid var(--color-green-light)}
 @media(min-width:601px){.group-team{cursor:pointer}.group-team:not(.is-active):hover{background:var(--color-paper-3)}}
 
@@ -1035,10 +1035,14 @@ if (window.matchMedia('(min-width: 601px)').matches) {
     if (wasActive) return;
 
     row.classList.add('is-active');
+    let firstRow = null;
     document.querySelectorAll('.sch-row').forEach(r => {
-      if ((r.dataset.match || '').toLowerCase().includes(teamName.toLowerCase()))
+      if ((r.dataset.match || '').toLowerCase().includes(teamName.toLowerCase())) {
         r.classList.add('sch-row--highlight');
+        if (!firstRow) firstRow = r;
+      }
     });
+    if (firstRow) firstRow.scrollIntoView({behavior:'smooth',block:'center'});
   });
 }
 </script>
