@@ -1062,10 +1062,58 @@ async function loadScores() {
         }
       });
     });
+
+    propagateBracket(data.matches);
   } catch (e) {
     console.log('Score fetch skipped:', e.message);
   }
 }
+
+function propagateBracket(matches) {
+  if (!matches || !matches.length) return;
+  const rounds = document.querySelectorAll('.b-round');
+  const results = {};
+
+  matches.forEach(api => {
+    if (api.homeScore == null) return;
+    const apiHome = (api.home || '').toLowerCase();
+    const apiAway = (api.away || '').toLowerCase();
+
+    rounds.forEach(round => {
+      round.querySelectorAll('.b-match').forEach(el => {
+        const numEl = el.querySelector('.b-match-num');
+        const teamsEl = el.querySelector('.b-match-teams');
+        if (!numEl || !teamsEl) return;
+        const mn = parseInt(numEl.textContent.replace('Матч ', ''));
+        if (isNaN(mn) || results[mn]) return;
+
+        const parts = teamsEl.textContent.split(' — ');
+        if (parts.length < 2) return;
+        const [home, away] = parts.map(s => s.trim());
+        if (home.includes('Поб.') || away.includes('Поб.')) return;
+
+        if (teamMap[home]?.toLowerCase() === apiHome && teamMap[away]?.toLowerCase() === apiAway) {
+          results[mn] = { winner: api.homeScore > api.awayScore ? home : away };
+        }
+      });
+    });
+  });
+
+  for (let iter = 0; iter < 20; iter++) {
+    let changed = false;
+    rounds.forEach(round => {
+      round.querySelectorAll('.b-match-teams').forEach(el => {
+        const text = el.textContent;
+        const newText = text.replace(/Поб\.(\d+)/g, (_, num) =>
+          results[parseInt(num)]?.winner || `Поб.${num}`
+        );
+        if (newText !== text) { el.textContent = newText; changed = true; }
+      });
+    });
+    if (!changed) break;
+  }
+}
+
 loadScores();
 setInterval(loadScores, 5 * 60 * 1000);
 
