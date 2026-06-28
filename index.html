@@ -514,10 +514,10 @@ h1 span{
   letter-spacing:-0.02em;
 }
 .b-match-score{
-  font:italic 700 0.85rem/1 var(--font-display);
+  font:italic 700 var(--text-md)/1 var(--font-display);
   color:var(--color-green);
+  margin-left:6px;
   letter-spacing:-0.02em;
-  margin:0 4px;
 }
 .b-round--final .b-match-score{color:var(--color-green-light)}
 
@@ -1152,9 +1152,8 @@ function propagateBracket(matches) {
       if (parts.length !== 2 || parts[0].includes('Поб.') || parts[1].includes('Поб.')) return;
       const s = document.createElement('span');
       s.className = 'b-match-score';
-      s.textContent = `${r.homeScore}:${r.awayScore}`;
-      teamsEl.textContent = '';
-      teamsEl.append(parts[0].trim(), ' ', s, ' ', parts[1].trim());
+      s.textContent = ` ${r.homeScore} : ${r.awayScore}`;
+      teamsEl.appendChild(s);
     });
   });
 
