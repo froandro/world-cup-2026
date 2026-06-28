@@ -1189,7 +1189,8 @@ if (window.matchMedia('(min-width: 601px)').matches) {
     row.classList.add('is-active');
     let firstRow = null;
     document.querySelectorAll('.sch-row').forEach(r => {
-      if ((r.dataset.match || '').toLowerCase().includes(teamName.toLowerCase())) {
+      const src = ((r.dataset.match || '') + ' ' + (r.querySelector('.sch-match b')?.textContent || '')).toLowerCase();
+      if (src.includes(teamName.toLowerCase())) {
         r.classList.add('sch-row--highlight');
         if (!firstRow) firstRow = r;
       }
