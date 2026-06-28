@@ -1092,6 +1092,7 @@ async function loadScores() {
   } catch (e) {
     console.log('Score fetch skipped:', e.message);
   }
+  if (activeTeam) applyHighlight(activeTeam);
 }
 
 function propagateBracket(matches) {
@@ -1174,30 +1175,35 @@ loadScores();
 setInterval(loadScores, 5 * 60 * 1000);
 
 // ponytail: desktop-only team match highlight
+let activeTeam = '';
+function applyHighlight(teamName) {
+  document.querySelectorAll('.group-team.is-active, .sch-row--highlight')
+    .forEach(el => el.classList.remove('is-active', 'sch-row--highlight'));
+  if (!teamName) return;
+  const el = document.querySelector(`.team-pos[data-team="${teamName}"]`);
+  if (el) el.closest('.group-team')?.classList.add('is-active');
+  let firstRow = null;
+  document.querySelectorAll('.sch-row').forEach(r => {
+    const src = ((r.dataset.match || '') + ' ' + (r.querySelector('.sch-match b')?.textContent || '')).toLowerCase();
+    if (src.includes(teamName.toLowerCase())) {
+      r.classList.add('sch-row--highlight');
+      if (!firstRow) firstRow = r;
+    }
+  });
+  if (firstRow) firstRow.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
 if (window.matchMedia('(min-width: 601px)').matches) {
   document.querySelector('.groups')?.addEventListener('click', e => {
     const row = e.target.closest('.group-team');
     if (!row) return;
     const teamName = row.querySelector('.team-pos')?.dataset.team;
     if (!teamName) return;
-
-    const wasActive = row.classList.contains('is-active');
-    document.querySelectorAll('.group-team.is-active, .sch-row--highlight')
-      .forEach(el => el.classList.remove('is-active', 'sch-row--highlight'));
-    if (wasActive) return;
-
-    row.classList.add('is-active');
-    let firstRow = null;
-    document.querySelectorAll('.sch-row').forEach(r => {
-      const src = ((r.dataset.match || '') + ' ' + (r.querySelector('.sch-match b')?.textContent || '')).toLowerCase();
-      if (src.includes(teamName.toLowerCase())) {
-        r.classList.add('sch-row--highlight');
-        if (!firstRow) firstRow = r;
-      }
-    });
-    if (firstRow) firstRow.scrollIntoView({behavior:'smooth',block:'center'});
+    activeTeam = row.classList.contains('is-active') ? '' : teamName;
+    applyHighlight(activeTeam);
   });
 }
+
 </script>
 </body>
 </html>
