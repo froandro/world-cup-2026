@@ -1050,7 +1050,7 @@ async function loadScores() {
     propagateBracket(data.matches);
 
     data.matches.forEach(api => {
-      if (api.status !== 'Finished' && api.status !== 'FT' && api.homeScore == null) return;
+      if (api.status !== 'Finished' && api.status !== 'FT' && (api.homeScore == null || api.homeScore === '')) return;
 
       const apiHome = (api.home || '').toLowerCase();
       const apiAway = (api.away || '').toLowerCase();
