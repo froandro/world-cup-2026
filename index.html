@@ -982,6 +982,19 @@ function updateBracketFromStandings(standings) {
     const [h, a] = pairings[i];
     if (h && a) el.textContent = `${h} — ${a}`;
   });
+
+  // Sync schedule 1/16 rows with bracket
+  const schedRows = document.querySelectorAll('.sch-row');
+  let si = 0;
+  schedRows.forEach(row => {
+    if (!(row.dataset.match || '').startsWith('1/16 · ')) return;
+    const cell = cells[si];
+    if (cell && !cell.textContent.includes('Поб.')) {
+      const b = row.querySelector('.sch-match b');
+      if (b) b.textContent = '1/16 · ' + cell.textContent;
+    }
+    si++;
+  });
 }
 
 async function loadScores() {
@@ -1112,6 +1125,18 @@ function propagateBracket(matches) {
     });
     if (!changed) break;
   }
+
+  // Sync schedule rows (resolve Поб.XX references)
+  document.querySelectorAll('.sch-row').forEach(row => {
+    const dm = row.dataset.match || '';
+    if (!dm.includes('·') && !dm.startsWith('3-е') && !dm.startsWith('ФИНАЛ')) return;
+    const b = row.querySelector('.sch-match b');
+    if (!b) return;
+    const newText = b.textContent.replace(/Поб\.(\d+)/g, (_, num) =>
+      results[parseInt(num)]?.winner || `Поб.${num}`
+    );
+    if (newText !== b.textContent) b.textContent = newText;
+  });
 }
 
 loadScores();
