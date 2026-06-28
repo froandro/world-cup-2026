@@ -933,6 +933,57 @@ const teamMap = {
   'Англия':'England','Хорватия':'Croatia','Гана':'Ghana','Панама':'Panama',
 };
 
+const teamMapReverse = {};
+for (const [ru, en] of Object.entries(teamMap)) {
+  teamMapReverse[en.toLowerCase()] = ru;
+}
+
+function updateBracketFromStandings(standings) {
+  const grp = {};
+  const third = [];
+  for (const [g, teams] of Object.entries(standings)) {
+    const t1 = teams.find(s => s.pos === 1);
+    const t2 = teams.find(s => s.pos === 2);
+    const t3 = teams.find(s => s.pos === 3);
+    if (!t1 || !t2 || !t3) return;
+    const w = teamMapReverse[t1.team.toLowerCase()];
+    const r = teamMapReverse[t2.team.toLowerCase()];
+    const t = teamMapReverse[t3.team.toLowerCase()];
+    grp[g] = { w, r, t, pts: t3.pts };
+    third.push({ g, team: t, pts: t3.pts });
+  }
+  third.sort((a, b) => b.pts - a.pts);
+  const q3 = new Set(third.slice(0, 8).map(x => x.g));
+  function pick3(...gs) {
+    for (const x of third) if (q3.has(x.g) && gs.includes(x.g)) return x.team;
+    return '';
+  }
+  const pairings = [
+    [grp.A?.r, grp.B?.r],
+    [grp.C?.w, grp.F?.r],
+    [grp.E?.w, pick3('A','B','C','D','F')],
+    [grp.F?.w, grp.C?.r],
+    [grp.E?.r, grp.I?.r],
+    [grp.I?.w, pick3('C','D','F','G','H')],
+    [grp.A?.w, pick3('C','E','F','H','I')],
+    [grp.L?.w, pick3('E','H','I','J','K')],
+    [grp.G?.w, pick3('A','E','H','I','J')],
+    [grp.D?.w, pick3('B','E','F','I','J')],
+    [grp.H?.w, grp.J?.r],
+    [grp.K?.r, grp.L?.r],
+    [grp.B?.w, pick3('E','F','G','I','J')],
+    [grp.D?.r, grp.G?.r],
+    [grp.J?.w, grp.H?.r],
+    [grp.K?.w, pick3('D','E','I','J','L')],
+  ];
+  const cells = document.querySelectorAll('.b-round:first-child .b-match-teams');
+  cells.forEach((el, i) => {
+    if (i >= pairings.length) return;
+    const [h, a] = pairings[i];
+    if (h && a) el.textContent = `${h} — ${a}`;
+  });
+}
+
 async function loadScores() {
   try {
     const resp = await fetch('/api/scores');
@@ -941,10 +992,6 @@ async function loadScores() {
 
     // Apply standings to groups
     if (data.standings) {
-      const teamMapReverse = {};
-      for (const [ru, en] of Object.entries(teamMap)) {
-        teamMapReverse[en.toLowerCase()] = ru;
-      }
 
       for (const [group, teams] of Object.entries(data.standings)) {
         teams.forEach(s => {
@@ -975,6 +1022,7 @@ async function loadScores() {
           groupEl.appendChild(row);
         });
       }
+      updateBracketFromStandings(data.standings);
     }
 
     if (!data.matches || !data.matches.length) return;
