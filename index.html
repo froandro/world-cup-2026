@@ -513,6 +513,13 @@ h1 span{
   margin-left:6px;
   letter-spacing:-0.02em;
 }
+.b-match-score{
+  font:italic 700 0.85rem/1 var(--font-display);
+  color:var(--color-green);
+  letter-spacing:-0.02em;
+  margin:0 4px;
+}
+.b-round--final .b-match-score{color:var(--color-green-light)}
 
 @media print{
   .poster{width:100%}
@@ -1040,26 +1047,33 @@ async function loadScores() {
 
     if (!data.matches || !data.matches.length) return;
 
+    propagateBracket(data.matches);
+
     data.matches.forEach(api => {
       if (api.status !== 'Finished' && api.status !== 'FT' && !api.homeScore) return;
 
-      const rows = schedEl.querySelectorAll('.sch-row');
-      rows.forEach(row => {
-        const text = row.getAttribute('data-match') || '';
-        const textLower = text.toLowerCase();
+      const apiHome = (api.home || '').toLowerCase();
+      const apiAway = (api.away || '').toLowerCase();
 
-        const apiHome = (api.home || '').toLowerCase();
-        const apiAway = (api.away || '').toLowerCase();
+      schedEl.querySelectorAll('.sch-row').forEach(row => {
+        const sources = [
+          (row.getAttribute('data-match') || '').toLowerCase(),
+          (row.querySelector('.sch-match b')?.textContent || '').toLowerCase()
+        ];
 
         let matchFound = false;
-        for (const [ru, en] of Object.entries(teamMap)) {
-          if (en.toLowerCase() === apiHome && textLower.includes(ru.toLowerCase())) {
-            for (const [ru2, en2] of Object.entries(teamMap)) {
-              if (en2.toLowerCase() === apiAway && textLower.includes(ru2.toLowerCase()) && ru !== ru2) {
-                matchFound = true;
-                break;
+        for (const src of sources) {
+          if (!src) continue;
+          for (const [ru, en] of Object.entries(teamMap)) {
+            if (en.toLowerCase() === apiHome && src.includes(ru.toLowerCase())) {
+              for (const [ru2, en2] of Object.entries(teamMap)) {
+                if (en2.toLowerCase() === apiAway && src.includes(ru2.toLowerCase()) && ru !== ru2) {
+                  matchFound = true;
+                  break;
+                }
               }
             }
+            if (matchFound) break;
           }
           if (matchFound) break;
         }
@@ -1075,8 +1089,6 @@ async function loadScores() {
         }
       });
     });
-
-    propagateBracket(data.matches);
   } catch (e) {
     console.log('Score fetch skipped:', e.message);
   }
@@ -1106,7 +1118,7 @@ function propagateBracket(matches) {
         if (home.includes('Поб.') || away.includes('Поб.')) return;
 
         if (teamMap[home]?.toLowerCase() === apiHome && teamMap[away]?.toLowerCase() === apiAway) {
-          results[mn] = { winner: api.homeScore > api.awayScore ? home : away };
+          results[mn] = { winner: api.homeScore > api.awayScore ? home : away, homeScore: api.homeScore, awayScore: api.awayScore };
         }
       });
     });
@@ -1125,6 +1137,26 @@ function propagateBracket(matches) {
     });
     if (!changed) break;
   }
+
+  // Display scores in bracket cells
+  rounds.forEach(round => {
+    round.querySelectorAll('.b-match').forEach(el => {
+      const numEl = el.querySelector('.b-match-num');
+      const teamsEl = el.querySelector('.b-match-teams');
+      if (!numEl || !teamsEl || el.querySelector('.b-match-score')) return;
+      const mn = parseInt(numEl.textContent.replace('Матч ', ''));
+      if (isNaN(mn)) return;
+      const r = results[mn];
+      if (!r || r.homeScore == null) return;
+      const parts = teamsEl.textContent.split(' — ');
+      if (parts.length !== 2 || parts[0].includes('Поб.') || parts[1].includes('Поб.')) return;
+      const s = document.createElement('span');
+      s.className = 'b-match-score';
+      s.textContent = `${r.homeScore}:${r.awayScore}`;
+      teamsEl.textContent = '';
+      teamsEl.append(parts[0].trim(), ' ', s, ' ', parts[1].trim());
+    });
+  });
 
   // Sync schedule rows (resolve Поб.XX references)
   document.querySelectorAll('.sch-row').forEach(row => {
