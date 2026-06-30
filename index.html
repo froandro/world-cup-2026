@@ -945,9 +945,10 @@ for (const [ru, en] of Object.entries(teamMap)) {
   teamMapReverse[en.toLowerCase()] = ru;
 }
 
-function updateBracketFromStandings(standings) {
+function updateBracketFromStandings(standings, matches) {
   const grp = {};
   const third = [];
+  const teamInfo = {};
   for (const [g, teams] of Object.entries(standings)) {
     const t1 = teams.find(s => s.pos === 1);
     const t2 = teams.find(s => s.pos === 2);
@@ -958,13 +959,30 @@ function updateBracketFromStandings(standings) {
     const t = teamMapReverse[t3.team.toLowerCase()];
     grp[g] = { w, r, t, pts: t3.pts };
     third.push({ g, team: t, pts: t3.pts });
+    [t1, t2, t3].forEach(s => {
+      const ru = teamMapReverse[s.team.toLowerCase()];
+      if (ru) teamInfo[ru] = { group: g, pos: s.pos, pts: s.pts };
+    });
   }
-  third.sort((a, b) => {
-    if (b.pts !== a.pts) return b.pts - a.pts;
-    return 0;
-  });
+  third.sort((a, b) => b.pts - a.pts || 0);
   const q3 = new Set(third.slice(0, 8).map(x => x.g));
   const used3 = new Set();
+
+  function apiOpponent(expectedRu, candidates) {
+    if (!matches || !expectedRu) return null;
+    const expectedEn = teamMap[expectedRu]?.toLowerCase();
+    if (!expectedEn) return null;
+    for (const m of matches) {
+      const opp = (m.home || '').toLowerCase() === expectedEn ? (m.away || '').toLowerCase() :
+                  (m.away || '').toLowerCase() === expectedEn ? (m.home || '').toLowerCase() : null;
+      if (!opp) continue;
+      for (const [ru, en] of Object.entries(teamMap))
+        if (en.toLowerCase() === opp && teamInfo[ru]?.pos === 3 && candidates.includes(teamInfo[ru]?.group))
+          return ru;
+    }
+    return null;
+  }
+
   function pick3(...gs) {
     for (const x of third) if (q3.has(x.g) && !used3.has(x.g) && gs.includes(x.g)) {
       used3.add(x.g); return x.team;
@@ -974,23 +992,25 @@ function updateBracketFromStandings(standings) {
     }
     return '';
   }
+
+  const thirdSlot = (homeRu, candidates) => apiOpponent(homeRu, candidates) || pick3(...candidates);
   const pairings = [
     [grp.A?.r, grp.B?.r],
     [grp.C?.w, grp.F?.r],
-    [grp.E?.w, pick3('A','B','C','D','F')],
+    [grp.E?.w, thirdSlot(grp.E?.w, ['A','B','C','D','F'])],
     [grp.F?.w, grp.C?.r],
     [grp.E?.r, grp.I?.r],
-    [grp.I?.w, pick3('C','D','F','G','H')],
-    [grp.A?.w, pick3('C','E','F','H','I')],
-    [grp.L?.w, pick3('E','H','I','J','K')],
-    [grp.G?.w, pick3('A','E','H','I','J')],
-    [grp.D?.w, pick3('B','E','F','I','J')],
+    [grp.I?.w, thirdSlot(grp.I?.w, ['C','D','F','G','H'])],
+    [grp.A?.w, thirdSlot(grp.A?.w, ['C','E','F','H','I'])],
+    [grp.L?.w, thirdSlot(grp.L?.w, ['E','H','I','J','K'])],
+    [grp.G?.w, thirdSlot(grp.G?.w, ['A','E','H','I','J'])],
+    [grp.D?.w, thirdSlot(grp.D?.w, ['B','E','F','I','J'])],
     [grp.H?.w, grp.J?.r],
     [grp.K?.r, grp.L?.r],
-    [grp.B?.w, pick3('E','F','G','I','J')],
+    [grp.B?.w, thirdSlot(grp.B?.w, ['E','F','G','I','J'])],
     [grp.D?.r, grp.G?.r],
     [grp.J?.w, grp.H?.r],
-    [grp.K?.w, pick3('D','E','I','J','L')],
+    [grp.K?.w, thirdSlot(grp.K?.w, ['D','E','I','J','L'])],
   ];
   const cells = document.querySelectorAll('.b-round:first-child .b-match-teams');
   cells.forEach((el, i) => {
@@ -1051,10 +1071,11 @@ async function loadScores() {
           groupEl.appendChild(row);
         });
       }
-      updateBracketFromStandings(data.standings);
     }
 
     if (!data.matches || !data.matches.length) return;
+
+    updateBracketFromStandings(data.standings, data.matches);
 
     propagateBracket(data.matches);
 
