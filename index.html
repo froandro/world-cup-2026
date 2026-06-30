@@ -959,10 +959,19 @@ function updateBracketFromStandings(standings) {
     grp[g] = { w, r, t, pts: t3.pts };
     third.push({ g, team: t, pts: t3.pts });
   }
-  third.sort((a, b) => b.pts - a.pts);
+  third.sort((a, b) => {
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    return 0;
+  });
   const q3 = new Set(third.slice(0, 8).map(x => x.g));
+  const used3 = new Set();
   function pick3(...gs) {
-    for (const x of third) if (q3.has(x.g) && gs.includes(x.g)) return x.team;
+    for (const x of third) if (q3.has(x.g) && !used3.has(x.g) && gs.includes(x.g)) {
+      used3.add(x.g); return x.team;
+    }
+    for (const x of third) if (q3.has(x.g) && !used3.has(x.g)) {
+      used3.add(x.g); return x.team;
+    }
     return '';
   }
   const pairings = [
