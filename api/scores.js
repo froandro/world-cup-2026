@@ -29,10 +29,7 @@ module.exports = async (req, res) => {
     return res.status(200).json(cache);
   }
 
-  const apiKey = process.env.APIFOOTBALL_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'APIFOOTBALL_KEY not set' });
-  }
+  const apiKey = process.env.APIFOOTBALL_KEY || '5a05af27da28a7e18a6f7ace888ba0f4b1711c8e8f6065749edec000241fc241';
 
   try {
     const today = new Date();
