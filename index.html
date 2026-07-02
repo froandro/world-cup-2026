@@ -516,8 +516,9 @@ h1 span{
 .b-match-score{
   font:italic 700 var(--text-md)/1 var(--font-display);
   color:var(--color-green);
-  margin-left:6px;
   letter-spacing:-0.02em;
+  text-align:center;
+  margin-top:2px;
 }
 .b-round--final .b-match-score{color:var(--color-green-light)}
 
@@ -1171,20 +1172,21 @@ function propagateBracket(matches) {
 
   // Display scores in bracket cells
   rounds.forEach(round => {
+    round.querySelectorAll('.b-match-score').forEach(old => old.remove());
     round.querySelectorAll('.b-match').forEach(el => {
       const numEl = el.querySelector('.b-match-num');
       const teamsEl = el.querySelector('.b-match-teams');
-      if (!numEl || !teamsEl || el.querySelector('.b-match-score')) return;
+      if (!numEl || !teamsEl) return;
       const mn = parseInt(numEl.textContent.replace('Матч ', ''));
       if (isNaN(mn)) return;
       const r = results[mn];
       if (!r || r.homeScore == null || r.homeScore === '') return;
       const parts = teamsEl.textContent.split(' — ');
       if (parts.length !== 2 || parts[0].includes('Поб.') || parts[1].includes('Поб.')) return;
-      const s = document.createElement('span');
+      const s = document.createElement('div');
       s.className = 'b-match-score';
-      s.textContent = ` ${r.homeScore} : ${r.awayScore}`;
-      teamsEl.appendChild(s);
+      s.textContent = `${r.homeScore} : ${r.awayScore}`;
+      el.insertBefore(s, el.querySelector('.b-match-meta'));
     });
   });
 
