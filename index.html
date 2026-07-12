@@ -946,18 +946,67 @@ for (const [ru, en] of Object.entries(teamMap)) {
   teamMapReverse[en.toLowerCase()] = ru;
 }
 
-function updateBracketFromStandings(standings, matches) {
-  const grp = {};
-  const third = [];
-  const teamInfo = {};
+function roundTitleToStage(title) {
+  const m = { '1/16 финала':'1/16-finals','1/8 финала':'1/8-finals','1/4 финала':'1/4-finals','Полуфиналы':'Semi-finals','Финал':'Final' };
+  return m[title] || null;
+}
+
+function placeholders(text) {
+  return text.includes('Поб.') || text.includes('3-е') || /^[^—]+ — [^—]+$/.test(text) && /[A-Z]/.test(text);
+}
+
+function fillBracketFromApi(matches) {
+  if (!matches || !matches.length) return;
+  const byStage = {};
+  matches.forEach(api => {
+    const s = api.round || '';
+    if (!s || s.includes('Group') || s.includes('league') || s.toLowerCase().includes('group')) return;
+    if (!byStage[s]) byStage[s] = [];
+    byStage[s].push(api);
+  });
+  Object.values(byStage).forEach(ev => ev.sort((a, b) => new Date(a.match_date+'T'+a.match_time) - new Date(b.match_date+'T'+b.match_time)));
+
+  document.querySelectorAll('.b-round').forEach(round => {
+    const t = round.querySelector('.b-round-title')?.textContent.trim();
+    if (!t) return;
+    const stageKey = roundTitleToStage(t);
+    if (!stageKey) return;
+    const evs = byStage[stageKey];
+    if (!evs) return;
+    const els = round.querySelectorAll('.b-match');
+    evs.forEach((api, i) => {
+      if (i >= els.length) return;
+      const te = els[i].querySelector('.b-match-teams');
+      if (!te || !placeholders(te.textContent)) return;
+      const he = (api.home || '').trim().toLowerCase();
+      const ae = (api.away || '').trim().toLowerCase();
+      if (!he || !ae) return;
+      let hr = '', ar = '';
+      for (const [ru, en] of Object.entries(teamMap)) {
+        if (!hr && en.toLowerCase() === he) hr = ru;
+        if (!ar && en.toLowerCase() === ae) ar = ru;
+      }
+      if (hr && ar) te.textContent = `${hr} — ${ar}`;
+    });
+  });
+}
+
+function fallbackBracketFromStandings(standings) {
+  const firstRound = document.querySelector('.b-round:first-child');
+  if (!firstRound) return;
+  const needFallback = [...firstRound.querySelectorAll('.b-match-teams')].some(el => placeholders(el.textContent));
+  if (!needFallback) return;
+
+  const grp = {}, third = [], teamInfo = {};
   for (const [g, teams] of Object.entries(standings)) {
     const t1 = teams.find(s => s.pos === 1);
     const t2 = teams.find(s => s.pos === 2);
     const t3 = teams.find(s => s.pos === 3);
-    if (!t1 || !t2 || !t3) return;
+    if (!t1 || !t2 || !t3) continue;
     const w = teamMapReverse[t1.team.toLowerCase()];
     const r = teamMapReverse[t2.team.toLowerCase()];
     const t = teamMapReverse[t3.team.toLowerCase()];
+    if (!w || !r || !t) continue;
     grp[g] = { w, r, t, pts: t3.pts };
     third.push({ g, team: t, pts: t3.pts });
     [t1, t2, t3].forEach(s => {
@@ -968,22 +1017,6 @@ function updateBracketFromStandings(standings, matches) {
   third.sort((a, b) => b.pts - a.pts || 0);
   const q3 = new Set(third.slice(0, 8).map(x => x.g));
   const used3 = new Set();
-
-  function apiOpponent(expectedRu, candidates) {
-    if (!matches || !expectedRu) return null;
-    const expectedEn = teamMap[expectedRu]?.toLowerCase();
-    if (!expectedEn) return null;
-    for (const m of matches) {
-      const opp = (m.home || '').toLowerCase() === expectedEn ? (m.away || '').toLowerCase() :
-                  (m.away || '').toLowerCase() === expectedEn ? (m.home || '').toLowerCase() : null;
-      if (!opp) continue;
-      for (const [ru, en] of Object.entries(teamMap))
-        if (en.toLowerCase() === opp && teamInfo[ru]?.pos === 3 && candidates.includes(teamInfo[ru]?.group))
-          return ru;
-    }
-    return null;
-  }
-
   function pick3(...gs) {
     for (const x of third) if (q3.has(x.g) && !used3.has(x.g) && gs.includes(x.g)) {
       used3.add(x.g); return x.team;
@@ -993,44 +1026,42 @@ function updateBracketFromStandings(standings, matches) {
     }
     return '';
   }
-
-  const thirdSlot = (homeRu, candidates) => apiOpponent(homeRu, candidates) || pick3(...candidates);
   const pairings = [
-    [grp.A?.r, grp.B?.r],
-    [grp.C?.w, grp.F?.r],
-    [grp.E?.w, thirdSlot(grp.E?.w, ['A','B','C','D','F'])],
-    [grp.F?.w, grp.C?.r],
-    [grp.E?.r, grp.I?.r],
-    [grp.I?.w, thirdSlot(grp.I?.w, ['C','D','F','G','H'])],
-    [grp.A?.w, thirdSlot(grp.A?.w, ['C','E','F','H','I'])],
-    [grp.L?.w, thirdSlot(grp.L?.w, ['E','H','I','J','K'])],
-    [grp.G?.w, thirdSlot(grp.G?.w, ['A','E','H','I','J'])],
-    [grp.D?.w, thirdSlot(grp.D?.w, ['B','E','F','I','J'])],
-    [grp.H?.w, grp.J?.r],
-    [grp.K?.r, grp.L?.r],
-    [grp.B?.w, thirdSlot(grp.B?.w, ['E','F','G','I','J'])],
-    [grp.D?.r, grp.G?.r],
-    [grp.J?.w, grp.H?.r],
-    [grp.K?.w, thirdSlot(grp.K?.w, ['D','E','I','J','L'])],
+    [grp.A?.r, grp.B?.r], [grp.C?.w, grp.F?.r], [grp.E?.w, pick3('A','B','C','D','F')],
+    [grp.F?.w, grp.C?.r], [grp.E?.r, grp.I?.r], [grp.I?.w, pick3('C','D','F','G','H')],
+    [grp.A?.w, pick3('C','E','F','H','I')], [grp.L?.w, pick3('E','H','I','J','K')],
+    [grp.G?.w, pick3('A','E','H','I','J')], [grp.D?.w, pick3('B','E','F','I','J')],
+    [grp.H?.w, grp.J?.r], [grp.K?.r, grp.L?.r], [grp.B?.w, pick3('E','F','G','I','J')],
+    [grp.D?.r, grp.G?.r], [grp.J?.w, grp.H?.r], [grp.K?.w, pick3('D','E','I','J','L')],
   ];
-  const cells = document.querySelectorAll('.b-round:first-child .b-match-teams');
+  const cells = firstRound.querySelectorAll('.b-match-teams');
   cells.forEach((el, i) => {
     if (i >= pairings.length) return;
+    if (!placeholders(el.textContent)) return;
     const [h, a] = pairings[i];
     if (h && a) el.textContent = `${h} — ${a}`;
   });
+}
 
-  // Sync schedule 1/16 rows with bracket
-  const schedRows = document.querySelectorAll('.sch-row');
-  let si = 0;
-  schedRows.forEach(row => {
-    if (!(row.dataset.match || '').startsWith('1/16 · ')) return;
-    const cell = cells[si];
-    if (cell && !cell.textContent.includes('Поб.')) {
+function syncScheduleFromBracket() {
+  const rounds = document.querySelectorAll('.b-round');
+  const prefixes = ['1/16', '1/8', '1/4', '1/2'];
+  rounds.forEach((round, ri) => {
+    const prefix = ri < 4 ? prefixes[ri] : '';
+    const cells = round.querySelectorAll('.b-match-teams');
+    const rows = [...document.querySelectorAll('.sch-row')].filter(r => {
+      const dm = (r.dataset.match || '').toLowerCase();
+      if (!prefix) return dm.includes('3-е') || dm.includes('финал');
+      return dm.startsWith(prefix.toLowerCase() + ' ·') || dm === prefix.toLowerCase();
+    });
+    rows.forEach((row, i) => {
+      if (i >= cells.length) return;
+      const cell = cells[i];
+      if (!cell || cell.textContent.includes('Поб.')) return;
       const b = row.querySelector('.sch-match b');
-      if (b) b.textContent = '1/16 · ' + cell.textContent;
-    }
-    si++;
+      if (!b) return;
+      b.textContent = prefix ? `${prefix} · ${cell.textContent}` : cell.textContent;
+    });
   });
 }
 
@@ -1076,8 +1107,9 @@ async function loadScores() {
 
     if (!data.matches || !data.matches.length) return;
 
-    updateBracketFromStandings(data.standings, data.matches);
-
+    fillBracketFromApi(data.matches);
+    fallbackBracketFromStandings(data.standings);
+    syncScheduleFromBracket();
     propagateBracket(data.matches);
 
     data.matches.forEach(api => {

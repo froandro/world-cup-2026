@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
       date: m.match_date,
       time: m.match_time,
       status: m.match_status,
+      round: m.stage_name,
       home: m.match_hometeam_name,
       away: m.match_awayteam_name,
       homeScore: m.match_hometeam_score,
