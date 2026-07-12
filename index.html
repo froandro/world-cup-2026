@@ -947,7 +947,7 @@ for (const [ru, en] of Object.entries(teamMap)) {
 }
 
 function roundTitleToStage(title) {
-  const m = { '1/16 финала':'1/16-finals','1/8 финала':'1/8-finals','1/4 финала':'1/4-finals','Полуфиналы':'Semi-finals','Финал':'Final' };
+  const m = { '1/16 финала':'1/16-finals','1/8 финала':'1/8-finals','1/4 финала':'Quarter-finals','Полуфиналы':'Semi-finals','Финал':'Final' };
   return m[title] || null;
 }
 
@@ -964,7 +964,7 @@ function fillBracketFromApi(matches) {
     if (!byStage[s]) byStage[s] = [];
     byStage[s].push(api);
   });
-  Object.values(byStage).forEach(ev => ev.sort((a, b) => new Date(a.match_date+'T'+a.match_time) - new Date(b.match_date+'T'+b.match_time)));
+  Object.values(byStage).forEach(ev => ev.sort((a, b) => new Date(a.date+'T'+a.time) - new Date(b.date+'T'+b.time)));
 
   document.querySelectorAll('.b-round').forEach(round => {
     const t = round.querySelector('.b-round-title')?.textContent.trim();
