@@ -1162,11 +1162,13 @@ function propagateBracket(matches) {
   if (!matches || !matches.length) return;
   const rounds = document.querySelectorAll('.b-round');
   const results = {};
+  let matched = 0, totalScoreable = 0;
 
   matches.forEach(api => {
     if (api.homeScore == null || api.homeScore === '') return;
-    const apiHome = (api.home || '').toLowerCase();
-    const apiAway = (api.away || '').toLowerCase();
+    totalScoreable++;
+    const apiHome = (api.home || '').trim().toLowerCase();
+    const apiAway = (api.away || '').trim().toLowerCase();
 
     rounds.forEach(round => {
       round.querySelectorAll('.b-match').forEach(el => {
@@ -1183,10 +1185,12 @@ function propagateBracket(matches) {
 
         if (teamMap[home]?.toLowerCase() === apiHome && teamMap[away]?.toLowerCase() === apiAway) {
           results[mn] = { winner: api.homeScore > api.awayScore ? home : away, homeScore: api.homeScore, awayScore: api.awayScore };
+          matched++;
         }
       });
     });
   });
+  console.log(`propagateBracket: ${Object.keys(results).length} matches matched out of ${totalScoreable} scoreable API events`);
 
   for (let iter = 0; iter < 20; iter++) {
     let changed = false;
