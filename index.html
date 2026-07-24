@@ -1071,7 +1071,9 @@ function syncScheduleFromBracket() {
       if (!cell || cell.textContent.includes('Поб.')) return;
       const b = row.querySelector('.sch-match b');
       if (!b) return;
-      if (prefix) {
+      if (prefix === '3-е') {
+        b.textContent = `Матч за 3-е место · ${cell.textContent}`;
+      } else if (prefix) {
         b.textContent = `${prefix} · ${cell.textContent}`;
       } else {
         const dm = row.dataset.match || '';
@@ -1182,7 +1184,7 @@ async function loadScores() {
               if (en.toLowerCase() === (api.away || '').toLowerCase()) ar = ru;
             }
             if (hr && ar) {
-              const label = b.textContent === 'ФИНАЛ' ? 'ФИНАЛ · ' : '3-е место · ';
+              const label = b.textContent === 'ФИНАЛ' ? 'ФИНАЛ · ' : 'Матч за 3-е место · ';
               b.textContent = `${label}${hr} — ${ar}`;
             }
           }
