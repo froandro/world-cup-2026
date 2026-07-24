@@ -667,7 +667,7 @@ h1 span{
       <div class="b-round-title" style="border-bottom-color:var(--color-accent);color:var(--color-accent)">Финал</div>
       <div class="b-match">
         <div class="b-match-num">Матч 96 · Финал</div>
-        <div class="b-match-teams" style="font-size:1rem">🏆 Чемпион мира 2026</div>
+        <div class="b-match-teams" style="font-size:1rem">Поб.93 — Поб.94</div>
         <div class="b-match-meta">19 июля · MetLife Stadium · Нью-Йорк</div>
       </div>
     </div>
@@ -1051,7 +1051,7 @@ function syncScheduleFromBracket() {
     const cells = round.querySelectorAll('.b-match-teams');
     const rows = [...document.querySelectorAll('.sch-row')].filter(r => {
       const dm = (r.dataset.match || '').toLowerCase();
-      if (!prefix) return dm.includes('3-е') || dm.includes('финал');
+      if (!prefix) return dm.includes('финал') && !dm.includes('3-е');
       return dm.startsWith(prefix.toLowerCase() + ' ·') || dm === prefix.toLowerCase();
     });
     rows.forEach((row, i) => {
@@ -1117,6 +1117,7 @@ async function loadScores() {
 
       const apiHome = (api.home || '').toLowerCase();
       const apiAway = (api.away || '').toLowerCase();
+      const apiDate = (api.date || '');
 
       schedEl.querySelectorAll('.sch-row').forEach(row => {
         const sources = [
@@ -1127,6 +1128,7 @@ async function loadScores() {
         let matchFound = false;
         for (const src of sources) {
           if (!src) continue;
+          // Try team name matching
           for (const [ru, en] of Object.entries(teamMap)) {
             if (en.toLowerCase() === apiHome && src.includes(ru.toLowerCase())) {
               for (const [ru2, en2] of Object.entries(teamMap)) {
@@ -1141,6 +1143,13 @@ async function loadScores() {
           if (matchFound) break;
         }
 
+        // Fallback: match final/3rd-place by date
+        if (!matchFound) {
+          const dm = (row.getAttribute('data-match') || '').toLowerCase();
+          if (dm.includes('3-е') && apiDate === '2026-07-18') matchFound = true;
+          if (dm.includes('финал') && apiDate === '2026-07-19') matchFound = true;
+        }
+
         if (matchFound) {
           const scoreEl = row.querySelector('.sch-match');
           if (scoreEl && !row.querySelector('.sch-score')) {
@@ -1148,6 +1157,19 @@ async function loadScores() {
             score.className = 'sch-score';
             score.textContent = ` ${api.homeScore} : ${api.awayScore}`;
             scoreEl.appendChild(score);
+          }
+          const b = row.querySelector('.sch-match b');
+          if (b) {
+            const text = b.textContent;
+            const needsTeams = text.includes('ФИНАЛ') || text.includes('3-е место');
+            if (needsTeams) {
+              let hr = '', ar = '';
+              for (const [ru, en] of Object.entries(teamMap)) {
+                if (en.toLowerCase() === (api.home || '').toLowerCase()) hr = ru;
+                if (en.toLowerCase() === (api.away || '').toLowerCase()) ar = ru;
+              }
+              if (hr && ar) b.textContent = `${hr} — ${ar}`;
+            }
           }
         }
       });
