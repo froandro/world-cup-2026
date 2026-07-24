@@ -662,6 +662,16 @@ h1 span{
       <div class="b-match"><div class="b-match-num">Матч 94</div><div class="b-match-teams">Поб.91 — Поб.92</div><div class="b-match-meta">15 июля</div></div>
     </div>
     <div class="b-arrow">→</div>
+    <!-- 3rd place -->
+    <div class="b-round">
+      <div class="b-round-title" style="color:var(--color-muted)">3-е место</div>
+      <div class="b-match">
+        <div class="b-match-num">Матч 95</div>
+        <div class="b-match-teams">Поб.93 — Поб.94</div>
+        <div class="b-match-meta">18 июля · MetLife Stadium · Нью-Йорк</div>
+      </div>
+    </div>
+    <div class="b-arrow">→</div>
     <!-- FINAL -->
     <div class="b-round b-round--final">
       <div class="b-round-title" style="border-bottom-color:var(--color-accent);color:var(--color-accent)">Финал</div>
@@ -947,7 +957,7 @@ for (const [ru, en] of Object.entries(teamMap)) {
 }
 
 function roundTitleToStage(title) {
-  const m = { '1/16 финала':'1/16-finals','1/8 финала':'1/8-finals','1/4 финала':'Quarter-finals','Полуфиналы':'Semi-finals','Финал':'Final' };
+  const m = { '1/16 финала':'1/16-finals','1/8 финала':'1/8-finals','1/4 финала':'Quarter-finals','Полуфиналы':'Semi-finals','3-е место':'3rd place','Финал':'Final' };
   return m[title] || null;
 }
 
@@ -1045,13 +1055,14 @@ function fallbackBracketFromStandings(standings) {
 
 function syncScheduleFromBracket() {
   const rounds = document.querySelectorAll('.b-round');
-  const prefixes = ['1/16', '1/8', '1/4', '1/2'];
+  const prefixes = ['1/16', '1/8', '1/4', '1/2', '3-е'];
   rounds.forEach((round, ri) => {
-    const prefix = ri < 4 ? prefixes[ri] : '';
+    const prefix = ri < 5 ? prefixes[ri] : '';
     const cells = round.querySelectorAll('.b-match-teams');
     const rows = [...document.querySelectorAll('.sch-row')].filter(r => {
       const dm = (r.dataset.match || '').toLowerCase();
       if (!prefix) return dm.includes('финал') && !dm.includes('3-е');
+      if (prefix === '3-е') return dm === '3-е место' || dm === '3-е' || dm.startsWith('3-е ·');
       return dm.startsWith(prefix.toLowerCase() + ' ·') || dm === prefix.toLowerCase();
     });
     rows.forEach((row, i) => {
@@ -1060,7 +1071,12 @@ function syncScheduleFromBracket() {
       if (!cell || cell.textContent.includes('Поб.')) return;
       const b = row.querySelector('.sch-match b');
       if (!b) return;
-      b.textContent = prefix ? `${prefix} · ${cell.textContent}` : cell.textContent;
+      if (prefix) {
+        b.textContent = `${prefix} · ${cell.textContent}`;
+      } else {
+        const dm = row.dataset.match || '';
+        b.textContent = dm.toLowerCase().includes('финал') ? `ФИНАЛ · ${cell.textContent}` : cell.textContent;
+      }
     });
   });
 }
@@ -1159,16 +1175,15 @@ async function loadScores() {
             scoreEl.appendChild(score);
           }
           const b = row.querySelector('.sch-match b');
-          if (b) {
-            const text = b.textContent;
-            const needsTeams = text.includes('ФИНАЛ') || text.includes('3-е место');
-            if (needsTeams) {
-              let hr = '', ar = '';
-              for (const [ru, en] of Object.entries(teamMap)) {
-                if (en.toLowerCase() === (api.home || '').toLowerCase()) hr = ru;
-                if (en.toLowerCase() === (api.away || '').toLowerCase()) ar = ru;
-              }
-              if (hr && ar) b.textContent = `${hr} — ${ar}`;
+          if (b && (b.textContent === '3-е место' || b.textContent === 'ФИНАЛ')) {
+            let hr = '', ar = '';
+            for (const [ru, en] of Object.entries(teamMap)) {
+              if (en.toLowerCase() === (api.home || '').toLowerCase()) hr = ru;
+              if (en.toLowerCase() === (api.away || '').toLowerCase()) ar = ru;
+            }
+            if (hr && ar) {
+              const label = b.textContent === 'ФИНАЛ' ? 'ФИНАЛ · ' : '3-е место · ';
+              b.textContent = `${label}${hr} — ${ar}`;
             }
           }
         }
